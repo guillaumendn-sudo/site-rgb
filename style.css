@@ -1,8 +1,7 @@
 /* --- Variables et Styles Globaux --- */
 :root {
-    /* Pas de mode jour/nuit, on définit un thème unique et vibrant */
-    --bg-color-start: #2D1B69; /* Violet foncé */
-    --bg-color-end: #0F3460;   /* Bleu foncé */
+    --bg-color-start: #2D1B69;
+    --bg-color-end: #0F3460;
     --primary-text-color: #ffffff;
     --secondary-text-color: #e0e0e0;
     --accent-red: #E94560;
@@ -23,16 +22,15 @@ html {
 
 body {
     font-family: var(--font-primary);
-    /* Le fond est maintenant un dégradé dynamique */
     background: linear-gradient(135deg, var(--bg-color-start), var(--bg-color-end));
-    background-attachment: fixed; /* Le fond reste fixe lors du scroll */
+    background-attachment: fixed;
     color: var(--primary-text-color);
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
 }
 
-/* --- Curseur Personnalisé Simplifié --- */
+/* --- Curseur Personnalisé --- */
 .custom-cursor {
     width: 15px;
     height: 15px;
@@ -45,7 +43,6 @@ body {
     z-index: 9999;
 }
 
-/* On cache le curseur par défaut sur desktop */
 @media (hover: hover) {
     body {
         cursor: none;
@@ -130,7 +127,7 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.05); /* Plus transparent */
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(15px);
     z-index: 1000;
     padding: 15px 0;
@@ -231,7 +228,7 @@ nav a:hover::after {
     left: 0;
     width: 100%;
     height: 100%;
-    background: transparent; /* Pas de fond pour voir l'effet */
+    background: transparent;
     overflow: hidden;
 }
 
@@ -355,7 +352,6 @@ nav a:hover::after {
     padding: 40px 30px;
     border-radius: 15px;
     text-align: center;
-    /* Effet "verre" */
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -426,7 +422,6 @@ nav a:hover::after {
     overflow: hidden;
     border-radius: 10px;
     cursor: pointer;
-    /* Effet "verre" */
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -526,6 +521,47 @@ nav a:hover::after {
     align-self: center;
 }
 
+/* --- Messages de statut du formulaire --- */
+.form-message {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideIn 0.3s ease-out;
+}
+
+.form-message.success {
+    background: rgba(12, 235, 235, 0.2);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+}
+
+.form-message.error {
+    background: rgba(233, 69, 96, 0.2);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
+
+.form-message.loading {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--primary-text-color);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* --- Footer --- */
 footer {
     padding: 40px 0;
@@ -583,10 +619,10 @@ footer p {
     }
     
     .custom-cursor {
-        display: none; /* On cache le curseur custom sur mobile */
+        display: none;
     }
     
     body {
-        cursor: auto; /* On rétablit le curseur par défaut */
+        cursor: auto;
     }
 }

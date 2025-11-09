@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Curseur Personnalisé Simplifié ---
+    // --- Curseur Personnalisé ---
     const cursor = document.querySelector('.custom-cursor');
     const interactiveElements = document.querySelectorAll('a, button, .tilt-card');
 
@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
 
     // --- Effet de Tilt 3D sur les cartes ---
     const tiltCards = document.querySelectorAll('.tilt-card');
@@ -46,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
         });
     });
-
 
     // --- Filtrage des Projets ---
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -95,11 +93,61 @@ document.addEventListener('DOMContentLoaded', () => {
         appearOnScroll.observe(fader);
     });
 
-    // --- Gestion du Formulaire de Contact (simple) ---
+    // --- Gestion du Formulaire de Contact ---
     const contactForm = document.getElementById('contact-form');
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Merci pour votre message ! Je vous répondrai dans les plus brefs délais. (Note : ceci est une démo, le formulaire n\'envoie rien pour le moment).');
-        contactForm.reset();
-    });
+    const formMessage = document.getElementById('form-message');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Afficher le message de chargement
+            formMessage.style.display = 'block';
+            formMessage.className = 'form-message loading';
+            formMessage.textContent = 'Envoi en cours...';
+            
+            // Désactiver le formulaire
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Envoi en cours...';
+            
+            const formData = new FormData(contactForm);
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    formMessage.className = 'form-message success';
+                    formMessage.textContent = '✅ Message envoyé avec succès! Je vous répondrai rapidement.';
+                    contactForm.reset();
+                } else {
+                    const data = await response.json();
+                    formMessage.className = 'form-message error';
+                    formMessage.textContent = data.error || '❌ Une erreur est survenue. Veuillez réessayer.';
+                }
+            } catch (error) {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = '❌ Une erreur est survenue. Veuillez réessayer plus tard.';
+            } finally {
+                // Réactiver le formulaire
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+                
+                // Cacher le message après 5 secondes
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                    formMessage.className = 'form-message';
+                    formMessage.textContent = '';
+                }, 5000);
+            }
+        });
+    }
+
 });
