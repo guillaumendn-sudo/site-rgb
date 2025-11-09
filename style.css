@@ -1,0 +1,592 @@
+/* --- Variables et Styles Globaux --- */
+:root {
+    /* Pas de mode jour/nuit, on définit un thème unique et vibrant */
+    --bg-color-start: #2D1B69; /* Violet foncé */
+    --bg-color-end: #0F3460;   /* Bleu foncé */
+    --primary-text-color: #ffffff;
+    --secondary-text-color: #e0e0e0;
+    --accent-red: #E94560;
+    --accent-green: #0CEBEB;
+    --accent-blue: #00D9FF;
+    --font-primary: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-primary);
+    /* Le fond est maintenant un dégradé dynamique */
+    background: linear-gradient(135deg, var(--bg-color-start), var(--bg-color-end));
+    background-attachment: fixed; /* Le fond reste fixe lors du scroll */
+    color: var(--primary-text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* --- Curseur Personnalisé Simplifié --- */
+.custom-cursor {
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: all 0.15s ease-out;
+    z-index: 9999;
+}
+
+/* On cache le curseur par défaut sur desktop */
+@media (hover: hover) {
+    body {
+        cursor: none;
+    }
+}
+
+/* --- Styles Communs --- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-red), var(--accent-green), var(--accent-blue));
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+section {
+    padding: 100px 0;
+    position: relative;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--primary-text-color);
+    border: 2px solid var(--primary-text-color);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+.cta-button:hover {
+    color: var(--bg-color-start);
+    border-color: var(--primary-text-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-text-color);
+    transition: left 0.4s ease;
+    z-index: -1;
+}
+
+.cta-button:hover::before {
+    left: 0;
+}
+
+/* --- Header et Navigation --- */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05); /* Plus transparent */
+    backdrop-filter: blur(15px);
+    z-index: 1000;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-text-color);
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-weight: 400;
+    position: relative;
+    transition: color 0.3s;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-red), var(--accent-green));
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* --- Section Accueil (Hero) --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero .container {
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.glitch {
+    position: relative;
+    color: var(--primary-text-color);
+    letter-spacing: 5px;
+    z-index: 1;
+    animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(2deg); }
+    40% { transform: skew(-2deg); }
+    60% { transform: skew(1deg); }
+    80% { transform: skew(-1deg); }
+    100% { transform: skew(0deg); }
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent; /* Pas de fond pour voir l'effet */
+    overflow: hidden;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--accent-red);
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--accent-green), 2px 2px var(--accent-blue);
+    animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip: rect(44px, 450px, 56px, 0); }
+    25% { clip: rect(20px, 450px, 80px, 0); }
+    50% { clip: rect(30px, 450px, 20px, 0); }
+    75% { clip: rect(60px, 450px, 40px, 0); }
+    100% { clip: rect(10px, 450px, 90px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(65px, 450px, 100px, 0); }
+    25% { clip: rect(30px, 450px, 60px, 0); }
+    50% { clip: rect(80px, 450px, 20px, 0); }
+    75% { clip: rect(10px, 450px, 70px, 0); }
+    100% { clip: rect(50px, 450px, 95px, 0); }
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-text-color);
+}
+
+/* --- Blobs Animés pour le fond --- */
+.rgb-blobs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    filter: blur(80px);
+    opacity: 0.6;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: blob-move 20s infinite;
+}
+
+.blob-1 {
+    width: 300px;
+    height: 300px;
+    background-color: var(--accent-red);
+    top: 20%;
+    left: 10%;
+    animation-duration: 25s;
+}
+
+.blob-2 {
+    width: 400px;
+    height: 400px;
+    background-color: var(--accent-green);
+    top: 60%;
+    right: 10%;
+    animation-duration: 30s;
+}
+
+.blob-3 {
+    width: 250px;
+    height: 250px;
+    background-color: var(--accent-blue);
+    bottom: 10%;
+    left: 50%;
+    animation-duration: 22s;
+}
+
+@keyframes blob-move {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+/* --- Sections de contenu avec effet "verre" --- */
+.content-section {
+    position: relative;
+    z-index: 2;
+}
+
+/* --- Section À Propos --- */
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.about-content p {
+    margin-bottom: 1.5rem;
+    color: var(--secondary-text-color);
+}
+
+/* --- Section Services --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.service-card {
+    padding: 40px 30px;
+    border-radius: 15px;
+    text-align: center;
+    /* Effet "verre" */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.service-card:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.service-card i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--accent-red), var(--accent-green), var(--accent-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px var(--accent-green));
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.service-card p {
+    color: var(--secondary-text-color);
+}
+
+/* --- Section Projets --- */
+.filter-buttons {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--primary-text-color);
+    padding: 8px 20px;
+    margin: 0 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: linear-gradient(45deg, var(--accent-red), var(--accent-green));
+    color: var(--bg-color-start);
+    border-color: transparent;
+    transform: scale(1.05);
+}
+
+.projets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.projet-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    /* Effet "verre" */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.projet-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.projet-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.projet-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.projet-item:hover .projet-overlay {
+    opacity: 1;
+}
+
+.projet-overlay h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.projet-overlay p {
+    color: var(--secondary-text-color);
+    text-align: left;
+}
+
+/* --- Section Contact --- */
+#contact {
+    text-align: center;
+}
+
+#contact p {
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    color: var(--secondary-text-color);
+}
+
+#contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#contact-form input,
+#contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    color: var(--primary-text-color);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+#contact-form input::placeholder,
+#contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 10px rgba(12, 235, 235, 0.3);
+}
+
+#contact-form button {
+    margin-top: 10px;
+    align-self: center;
+}
+
+/* --- Footer --- */
+footer {
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-links {
+    margin-bottom: 20px;
+}
+
+.social-links a {
+    color: var(--secondary-text-color);
+    font-size: 1.5rem;
+    margin: 0 15px;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-text-color);
+    transform: translateY(-5px) scale(1.1);
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+footer p {
+    color: var(--secondary-text-color);
+    font-size: 0.9rem;
+}
+
+/* --- Animations au défilement --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        gap: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .services-grid, .projets-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .custom-cursor {
+        display: none; /* On cache le curseur custom sur mobile */
+    }
+    
+    body {
+        cursor: auto; /* On rétablit le curseur par défaut */
+    }
+}
